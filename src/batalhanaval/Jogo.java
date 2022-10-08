@@ -55,7 +55,7 @@ public class Jogo {
 			
 			for (int i = 0; i < boatProperties.length; i++) {
 				colunas[i] = boatProperties[i].charAt(0);
-				linhas[i] = Character.getNumericValue(boatProperties[i].charAt(1));
+				linhas[i] = Integer.parseInt(boatProperties[i].substring(1));
 			}
 			
 
