@@ -9,6 +9,8 @@ public class Main {
 		try {					
 			jogo = new Jogo(1);
 			printTabuleiro(jogo);
+			// TODO Criar e mostrar o menu principal ao usuario
+			// TODO Criar e mostrar o menu de gameplay ao usuario
 			
 		}catch(Exception e) {
 			System.out.println("Ocorreu um erro");

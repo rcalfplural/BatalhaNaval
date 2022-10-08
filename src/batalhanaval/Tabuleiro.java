@@ -14,6 +14,7 @@ public class Tabuleiro {
 	}
 	
 	public void inserirNavio(Navio navio) {
+		// TODO fazer verificação para que os navios nao se sobreponham
 		char[] colunas = navio.getColunaPos();
 		int[] linhas = navio.getLinhaPos();
 		for(int i  = 0; i < navio.getTamanho(); i++) {
@@ -23,6 +24,8 @@ public class Tabuleiro {
 			matriz[y][x] = navio.getId();
 		}
 	}
+	
+	// TODO adicionar metodo de atirar
 	
 	public int[][] getMatriz(){
 		return matriz;

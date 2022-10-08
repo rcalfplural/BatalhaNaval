@@ -12,6 +12,7 @@ public class Jogo {
 		this.loadNavios();
 	}
 	
+	// TODO adicionar metodos de start - restart e outros
 	public Tabuleiro getTabuleiro() {
 		return tabuleiro;
 	}
