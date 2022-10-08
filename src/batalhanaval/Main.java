@@ -28,15 +28,15 @@ public class Main {
 				}
 				System.out.print("\n");
 				for(int j = 0; j < tamanho; j++) {
-					System.out.print("- ");
+					System.out.print("==");
 				}
 				System.out.print("\n");
 			}
 			for(int j = 0; j < tamanho; j++) {
 				if(tabuleiro[i][j] != 0) {					
-					System.out.print(tabuleiro[i][j]+" ");
+					System.out.print("- ");
 				}else {					
-					System.out.print("x ");
+					System.out.print("  ");
 				}
 			}
 			System.out.print("|"+(i+1));

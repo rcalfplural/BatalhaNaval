@@ -12,8 +12,6 @@ public class Jogo {
 		this.loadNavios();
 	}
 	
-	
-	
 	public Tabuleiro getTabuleiro() {
 		return tabuleiro;
 	}
