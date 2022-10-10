@@ -3,14 +3,23 @@ package batalhanaval.menus;
 import java.util.Scanner;
 
 public class Menu {
-	private Scanner scanner;
+	private static final Scanner scanner = new Scanner(System.in);
 	private String menuNome;
 	private String[] options;
 	
-	public Menu(String menuNome, String[] options, Scanner scanner) {
+	public Menu(String menuNome, String[] options) {
 		this.options = options;
 		this.menuNome = menuNome;
-		this.scanner = scanner;
+	}
+	
+	public void mostrarOpcoesMenu() {
+		String[] options = this.getOptions();
+		
+		System.out.println(this.getNome());
+		for(String s:options) {
+			if(s == null) continue;
+			System.out.println(s);
+		}
 	}
 	
 	public String[] getOptions() {
@@ -20,7 +29,7 @@ public class Menu {
 		return this.menuNome;
 	}
 	
-	public int menuOpcaoEscolha() {
+	public int menuNextInt() {
 		int escolha;
 		do {
 			escolha = scanner.nextInt();
@@ -28,5 +37,15 @@ public class Menu {
 		
 		return escolha;
 	}
+	
+	public String menuNextString() {
+		String s;
+		do {
+			s = scanner.next();
+		}while(s == null);
+		
+		return s;
+	}
+	
 }
 

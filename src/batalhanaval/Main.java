@@ -1,13 +1,24 @@
 package batalhanaval;
 
+import java.util.Random;
+import batalhanaval.menus.Menu;
 
 public class Main {
 
+	private static final Random random = new Random();
+	
+	private static final Menu menuPrincipal = new Menu("Menu Principal", new String[]{"1. Novo Jogo", "2. Jogar",  "3. Sair"});
+	private static final Menu menuJogo = new Menu("Insira a posição de disparo. Ex: c4", new String[1]);
+	 
 	public static void main(String[] args) {
 		Jogo jogo;
+		
+		
+		
 		// TODO Auto-generated method stub
 		try {					
-			jogo = new Jogo(1);
+			jogo = new Jogo(random.nextInt(1, 10));
+			menu();
 			printTabuleiro(jogo);
 			// TODO Criar e mostrar o menu principal ao usuario
 			// TODO Criar e mostrar o menu de gameplay ao usuario
@@ -16,6 +27,14 @@ public class Main {
 			System.out.println("Ocorreu um erro");
 			e.printStackTrace();
 		}
+	}
+	
+	private static void menu() {
+		int escolha;
+		do {
+			menuPrincipal.mostrarOpcoesMenu();
+			escolha = menuPrincipal.menuNextInt();
+		}while(escolha != 3);
 	}
 	
 	
