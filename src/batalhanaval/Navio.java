@@ -3,6 +3,7 @@ package batalhanaval;
 public class Navio {
 	private int id;
 	private int tamanho;
+	private int partesDestruidas;
 	private int[] linhaPos;
 	private char[] colunaPos;
 	
@@ -11,6 +12,7 @@ public class Navio {
 		this.colunaPos = colunas;
 		this.linhaPos = linhas;
 		this.tamanho = tamanho;
+		this.partesDestruidas = 0;
 	}
 	
 	@Override
@@ -48,5 +50,17 @@ public class Navio {
 	}
 	public void setColunaPos(char[] colunaPos) {
 		this.colunaPos = colunaPos;
+	}
+
+	public int getPartesDestruidas() {
+		return partesDestruidas;
+	}
+
+	public void setPartesDestruidas(int partesDestruidas) {
+		this.partesDestruidas = partesDestruidas;
 	}	
+	
+	public void incrementPartesDestruidas() {
+		this.partesDestruidas ++;
+	}
 }

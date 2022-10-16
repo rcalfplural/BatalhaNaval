@@ -4,6 +4,7 @@ import java.util.Random;
 
 import batalhanaval.exceptions.PosicaoNavioInvalidoException;
 import batalhanaval.menus.Menu;
+import util.ArrayUtils;
 
 public class Main {
 
@@ -14,21 +15,27 @@ public class Main {
 	private static BatalhaNavalTelas telaAtual;
 	private static Jogo jogo;
 	private static int nivelAtual;
+	private static boolean mostrar = false;
 	
 	public static void main(String[] args) {
 		telaAtual = BatalhaNavalTelas.MENU_PRINCIPAL;
 		nivelAtual = random.nextInt(1, 10);
-		
+
+		try {			
+			jogo = new Jogo(nivelAtual);
+		}catch(Exception exception) {
+			System.out.println("Ocorreu um erro: "+exception.getMessage());
+			exception.printStackTrace();
+		}
 		while(telaAtual != BatalhaNavalTelas.FIM_JOGO) {			
 			try {					
-				jogo = new Jogo(nivelAtual);
 				
 				switch(telaAtual) {
 					case MENU_PRINCIPAL:
 						menuPrincipal();
 						break;
 					case JOGO:
-						jogo(jogo);
+						jogo();
 						break;
 					default:
 						break;
@@ -63,12 +70,12 @@ public class Main {
 		
 	}
 	
-	private static void jogo(Jogo jogo) {
+	private static void jogo() {
 		String jogada;
 		
 		try {
 			
-			printTabuleiro(jogo);
+			printTabuleiro();
 			menuJogo.mostrarOpcoesMenu();
 			jogada = menuJogo.menuNextString();
 			
@@ -77,12 +84,13 @@ public class Main {
 			if(jogada.equals("00")) {
 				telaAtual = BatalhaNavalTelas.MENU_PRINCIPAL;
 				return;
-			}else if(jogada.equals("CETULHÃO")) {
-				telaAtual = BatalhaNavalTelas.FIM_JOGO;
+			}else if(jogada.equals("11")) {
+				mostrar = !mostrar;
+				System.out.println((mostrar)?"CHEAT ATIVADO: MOSTRAR NAVIOS.":"CHEAT DESATIVADO: MOSTRAR NAVIOS.");
 				return;
 			}
 			
-			if(jogo.getTabuleiro().atirar(jogada)) {
+			if(jogo.atirar(jogada)) {
 				System.out.println("Acertou!");
 			}else {
 				System.out.println("Errou!");
@@ -98,7 +106,7 @@ public class Main {
 	}
 	
 	
-	private static void printTabuleiro(Jogo jogo) {
+	private static void printTabuleiro() {
 		int[][] tabuleiro = jogo.getTabuleiroMatriz();
 		int tamanho = jogo.getTabuleiro().getTamanho();
 		
@@ -114,8 +122,18 @@ public class Main {
 				System.out.print("\n");
 			}
 			for(int j = 0; j < tamanho; j++) {
-				if(tabuleiro[i][j] != 0) {					
+				int navioId = tabuleiro[i][j];
+				String coordStr = Tabuleiro.getPosStringFromCoordenates(j, i);
+				Navio navio = jogo.getNavios()[navioId];
+				
+				if(navioId != 0 && mostrar || navio != null && navioId != 0 && navio.getPartesDestruidas() == navio.getTamanho()) {					
 					System.out.print("- ");
+				}else if(ArrayUtils.includes(jogo.getDisparosCoordenadas(), coordStr)){
+					if(navioId != 0){
+						System.out.print("x ");
+					}else {
+						System.out.print("0 ");
+					}
 				}else {					
 					System.out.print("  ");
 				}

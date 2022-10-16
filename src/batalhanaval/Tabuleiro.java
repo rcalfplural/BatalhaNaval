@@ -16,7 +16,6 @@ public class Tabuleiro {
 	}
 	
 	public void inserirNavio(Navio navio) throws Exception{
-		// TODO fazer verificação para que os navios nao se sobreponham
 		char[] colunas = navio.getColunaPos();
 		int[] linhas = navio.getLinhaPos();
 		for(int i  = 0; i < navio.getTamanho(); i++) {
@@ -32,23 +31,32 @@ public class Tabuleiro {
 	
 	// TODO adicionar metodo de transformar os digitos de entrada em coordenadas
 	private static int getVerticalPos(String entrada) {
+		entrada = entrada.toLowerCase();
 		return Integer.parseInt(entrada.substring(1))-1;
 	}
 	
 	private static int getHorizontalPos(String entrada) {
+		entrada = entrada.toLowerCase();
 		int x = alfabeto.indexOf(entrada.charAt(0));
 		if(x < 0) throw new PosicaoDisparoInvalidoException("Posicao invalida");
 		return x;
 	}
 	
 	// TODO adicionar metodo de atirar
-	public boolean atirar(String entrada) {
+	public int atirar(String entrada) {
 		int x = getHorizontalPos(entrada);
 		int y = getVerticalPos(entrada);
 		
-		if(x < 0 || x > tamanho-1 || y < 0 || y > tamanho-1) return false;
+		if(x < 0 || x > tamanho-1 || y < 0 || y > tamanho-1) return -1;
 		
-		return true;
+		if(matriz[y][x] > 0) return matriz[y][x];
+		
+		return -1;
+	}
+	
+	public static String getPosStringFromCoordenates(int x, int y) {
+		char _x = alfabeto.charAt(x);
+		return _x+""+(y+1);
 	}
 	
 	public int[][] getMatriz(){

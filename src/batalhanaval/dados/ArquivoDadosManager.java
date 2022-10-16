@@ -31,4 +31,17 @@ public class ArquivoDadosManager {
 		writer.write(conteudo);
 		writer.close();
 	}
+	
+	public static int getNumeroLinhas(String arquivoNome) throws IOException {
+		int linhas = 0;
+		
+		dadosPath = Paths.get(pathString+arquivoNome);
+		reader = new Scanner(dadosPath.toFile());
+		while(reader.hasNextLine()) {
+			linhas++;
+			reader.nextLine();
+		}
+		
+		return linhas;
+	}
 }
