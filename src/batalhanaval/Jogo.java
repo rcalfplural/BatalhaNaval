@@ -46,12 +46,12 @@ public class Jogo {
 		
 		int navioId = tabuleiro.atirar(entrada);
 		
-		if(navioId < 0) return false;
-		
 		disparosCoordenadas[totalDisparos] = entrada;
 		totalDisparos++;
 		
-		navios[navioId].incrementPartesDestruidas();
+		if(navioId < 0) return false;
+		
+		navios[navioId-1].incrementPartesDestruidas();
 		
 		return true;
 	}
@@ -62,8 +62,10 @@ public class Jogo {
 		int totalNavios = ArquivoDadosManager.getNumeroLinhas(level+".txt");
 		navios = new Navio[totalNavios];
 		
-		int navioId = 1;
-		for(String s:boats) {
+		int navioId = 0;
+		for(int i = 0; i < totalNavios; i++) {
+			navioId ++;
+			String s = boats[i];
 			Navio navio;
 			String[] boatProperties = s.split(",");
 			
@@ -71,18 +73,17 @@ public class Jogo {
 			int[] linhas = new int[boatProperties.length];
 			
 			
-			for (int i = 0; i < boatProperties.length; i++) {
-				colunas[i] = boatProperties[i].charAt(0);
-				linhas[i] = Integer.parseInt(boatProperties[i].substring(1));
+			for (int j = 0; j < boatProperties.length; j++) {
+				colunas[j] = boatProperties[j].charAt(0);
+				linhas[j] = Integer.parseInt(boatProperties[j].substring(1));
 			}
 			
 
 			navio = new Navio(navioId, boatProperties.length, linhas, colunas);
 			tabuleiro.inserirNavio(navio);
 			navios[navioId-1] = navio; 
-			navioId ++;
 		}
-		
+		System.out.println("Navio id final: "+navioId);
 	}
 
 	public int getTotalNavios() {

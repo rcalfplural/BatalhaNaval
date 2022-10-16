@@ -48,6 +48,7 @@ public class Main {
 			catch(Exception e) {
 				System.out.println("Ocorreu um erro");
 				e.printStackTrace();
+				break;
 			}
 		}
 	}
@@ -121,20 +122,28 @@ public class Main {
 				}
 				System.out.print("\n");
 			}
+			
+			
 			for(int j = 0; j < tamanho; j++) {
 				int navioId = tabuleiro[i][j];
+				Navio[] navios = jogo.getNavios();
 				String coordStr = Tabuleiro.getPosStringFromCoordenates(j, i);
-				Navio navio = jogo.getNavios()[navioId];
 				
-				if(navioId != 0 && mostrar || navio != null && navioId != 0 && navio.getPartesDestruidas() == navio.getTamanho()) {					
-					System.out.print("- ");
-				}else if(ArrayUtils.includes(jogo.getDisparosCoordenadas(), coordStr)){
-					if(navioId != 0){
-						System.out.print("x ");
+				if(ArrayUtils.includes(jogo.getDisparosCoordenadas(), coordStr)) {
+					if(navioId != 0) {
+						Navio navio = navios[navioId-1];
+						if(navio.getPartesDestruidas() == navio.getTamanho()) {						
+							System.out.print("- ");
+						}else {
+							System.out.print("x ");
+						}
 					}else {
 						System.out.print("0 ");
 					}
-				}else {					
+				}else if(mostrar && navioId != 0) {
+					System.out.print("- ");
+				}
+				else{
 					System.out.print("  ");
 				}
 			}
@@ -142,5 +151,4 @@ public class Main {
 			System.out.print("\n");
 		}
 	}
-
 }
