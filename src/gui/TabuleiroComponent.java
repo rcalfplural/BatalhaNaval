@@ -18,7 +18,6 @@ public class TabuleiroComponent extends JPanel{
 		
 		for(int i = 0; i < matriz.length; i++) {
 			for(int j = 0; j < matriz[i].length; j++) {
-				int navioId = matriz[i][j];
 				CelulaComponent celula = new CelulaComponent(Tabuleiro.alfabeto.charAt(j)+""+(i+1), matriz[i][j]);
 				add(celula);
 			}

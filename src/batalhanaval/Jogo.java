@@ -4,6 +4,8 @@ import batalhanaval.dados.ArquivoDadosManager;
 import util.ArrayUtils;
 
 public class Jogo {
+	private boolean venceu;
+	
 	private Tabuleiro tabuleiro;
 	private int level;
 	private int totalNavios;
@@ -18,6 +20,7 @@ public class Jogo {
 		this.tabuleiro = new Tabuleiro(15);
 		this.disparosCoordenadas = new String[tabuleiro.getTamanho()*tabuleiro.getTamanho()];
 		this.naviosNalfragados = 0;
+		this.venceu = false;
 		this.loadNavios();
 	}
 	
@@ -144,4 +147,14 @@ public class Jogo {
 	public void setMunicaoTotal(int municaoTotal) {
 		this.municaoTotal = municaoTotal;
 	}
+
+	public boolean isVenceu() {
+		return venceu;
+	}
+
+	public void setVenceu(boolean venceu) {
+		this.venceu = venceu;
+	}
+	
+	
 }

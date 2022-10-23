@@ -17,7 +17,6 @@ public class Main {
 	private static Jogo jogo;
 	private static int nivelAtual;
 	private static boolean mostrar = false;
-	private static boolean venceu = false;
 	
 	public static void main(String[] args) {
 		telaAtual = BatalhaNavalTelas.MENU_PRINCIPAL;
@@ -55,7 +54,7 @@ public class Main {
 		}
 		
 		
-		if(venceu) {
+		if(jogo.isVenceu()) {
 			System.out.println("Parabéns! Você derrotou as frotas inimigas!");
 		}else {
 			System.out.println("Fim de Jogo. Você não foi capaz de derrotar as frotas inimigas...");
@@ -90,13 +89,13 @@ public class Main {
 			printTabuleiro();
 			// verifica se ganhou o jogo
 			if(jogo.getTotalNavios() == jogo.getNaviosNalfragados()) {
-				venceu = true;
+				jogo.setVenceu(true);
 				telaAtual = BatalhaNavalTelas.FIM_JOGO;
 				return;
 			}
 			
 			if(jogo.getTotalDisparos() == jogo.getMunicaoTotal()) {
-				venceu = false;
+				jogo.setVenceu(false);
 				telaAtual = BatalhaNavalTelas.FIM_JOGO;
 				mostrar = true;
 				printTabuleiro();

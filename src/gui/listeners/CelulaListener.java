@@ -1,12 +1,14 @@
 package gui.listeners;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
+import batalhanaval.Jogo;
 import gui.CelulaComponent;
+import gui.Janela;
 
 public class CelulaListener implements MouseListener {
 
@@ -23,13 +25,22 @@ public class CelulaListener implements MouseListener {
 		
 		CelulaComponent buttonComponent = (CelulaComponent)button;
 		
-		if(buttonComponent.getNavioId() != 0) {
-			buttonComponent.setText("X");
-			buttonComponent.setBackground(Color.GREEN);
+		if(buttonComponent.foiClicado()) return;
+		
+		
+		JFrame janelaComponent = (JFrame)SwingUtilities.getRoot(buttonComponent);
+		Janela janela = (Janela)janelaComponent;
+		Jogo jogo = janela.getJogo();
+
+		
+		if(jogo.atirar(buttonComponent.getText())) {
+			buttonComponent.setAcerto();
 		}else {
-			buttonComponent.setText("0");
-			buttonComponent.setBackground(Color.RED);
+			buttonComponent.setErro();
 		}
+		
+		janela.update();
+		buttonComponent.setClicado(true);
 	}
 
 	@Override
