@@ -1,5 +1,6 @@
 package batalhanaval;
 
+import java.nio.file.FileSystemNotFoundException;
 import java.util.Random;
 
 import batalhanaval.exceptions.PosicaoNavioInvalidoException;
@@ -12,6 +13,7 @@ public class Main {
 	private static final Random random = new Random();
 	private static final Menu menuPrincipal = new Menu("Menu Principal", new String[]{"1. Novo Jogo - Iniciar um novo jogo em outro tabuleiro", "2. Jogar - jogar",  "3. Sair - encerrar o programa"});
 	private static final Menu menuJogo = new Menu("Insira a posição de disparo. Ex: c4", new String[1]);
+	private static final Menu menuFimJogo = new Menu("Jogar novamente?", new String[] {"1. SIM", "2. NÃO"});
 	
 	private static BatalhaNavalTelas telaAtual;
 	private static Jogo jogo;
@@ -24,11 +26,14 @@ public class Main {
 
 		try {			
 			jogo = new Jogo(nivelAtual);
+		}catch(PosicaoNavioInvalidoException e) {
+			System.out.println("Ocorreu um erro ao carregar o nivel "+nivelAtual+". Arquivo possui dados invalidos. "+e.getMessage());
+			e.printStackTrace();
 		}catch(Exception exception) {
 			System.out.println("Ocorreu um erro: "+exception.getMessage());
 			exception.printStackTrace();
 		}
-		while(telaAtual != BatalhaNavalTelas.FIM_JOGO) {			
+		while(telaAtual != BatalhaNavalTelas.FIM_JOGO && telaAtual != BatalhaNavalTelas.JOGO_CANCELADO) {			
 			try {					
 				
 				switch(telaAtual) {
@@ -59,6 +64,14 @@ public class Main {
 		}else {
 			System.out.println("Fim de Jogo. Você não foi capaz de derrotar as frotas inimigas...");
 		}
+		
+		if(telaAtual != BatalhaNavalTelas.FIM_JOGO) return;
+		
+		menuFimJogo.mostrarOpcoesMenu();
+		int option = menuFimJogo.menuNextInt();
+		if(option == 1) {
+			main(args);
+		}
 	}
 	
 	
@@ -76,13 +89,15 @@ public class Main {
 				telaAtual = BatalhaNavalTelas.JOGO;
 				break;
 			case 3:
-				telaAtual = BatalhaNavalTelas.FIM_JOGO;
+				telaAtual = BatalhaNavalTelas.JOGO_CANCELADO;
 				break;
 		}
 		
 	}
 	
 	private static void jogo() {
+		if(Jogo.isSpecialMode) return;
+		
 		String jogada;
 		
 		try {
@@ -119,6 +134,8 @@ public class Main {
 			}else if(jogada.equals("77")) {
 				System.out.println("MODO SECRETO ATIVADO!!!!!");
 				new Janela(jogo);
+				Jogo.isSpecialMode = true;
+				return;
 			}
 			
 			if(jogo.atirar(jogada)) {
@@ -141,8 +158,10 @@ public class Main {
 		int[][] tabuleiro = jogo.getTabuleiroMatriz();
 		int tamanho = jogo.getTabuleiro().getTamanho();
 		
+		System.out.println("Nivel atual: "+jogo.getLevel());
 		System.out.println("Navios acertados: "+jogo.getNaviosNalfragados()+"/"+jogo.getTotalNavios());
 		System.out.println("Munição: "+jogo.getTotalDisparos()+"/"+jogo.getMunicaoTotal());
+		System.out.println("00 - Menu principal");
 		
 		
 		// percorrer o tabuleiro verticalmente

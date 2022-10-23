@@ -4,6 +4,8 @@ import batalhanaval.dados.ArquivoDadosManager;
 import util.ArrayUtils;
 
 public class Jogo {
+	public static boolean isSpecialMode = false;
+	
 	private boolean venceu;
 	
 	private Tabuleiro tabuleiro;
@@ -97,7 +99,7 @@ public class Jogo {
 			this.totalNavios ++;
 		}
 		
-		this.municaoTotal = totalNavios*3;
+		this.municaoTotal = totalNavios*3+10;
 	}
 
 	public int getTotalNavios() {
