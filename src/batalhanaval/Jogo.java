@@ -8,6 +8,8 @@ public class Jogo {
 	private int level;
 	private int totalNavios;
 	private int totalDisparos;
+	private int naviosNalfragados;
+	private int municaoTotal;
 	private Navio[] navios;
 	private String[] disparosCoordenadas;
 	
@@ -15,6 +17,7 @@ public class Jogo {
 		this.level = level;
 		this.tabuleiro = new Tabuleiro(15);
 		this.disparosCoordenadas = new String[tabuleiro.getTamanho()*tabuleiro.getTamanho()];
+		this.naviosNalfragados = 0;
 		this.loadNavios();
 	}
 	
@@ -51,12 +54,18 @@ public class Jogo {
 		
 		if(navioId < 0) return false;
 		
-		navios[navioId-1].incrementPartesDestruidas();
+		Navio navio = navios[navioId-1];
+		navio.incrementPartesDestruidas();
+		
+		if(navio.getPartesDestruidas() == navio.getTamanho()) {
+			naviosNalfragados++;
+		}
 		
 		return true;
 	}
 
 	private void loadNavios() throws Exception{
+		this.totalNavios = 0;
 		String levelData = ArquivoDadosManager.lerArquivo(level+".txt");
 		String[] boats = levelData.split("\n");
 		int totalNavios = ArquivoDadosManager.getNumeroLinhas(level+".txt");
@@ -82,8 +91,10 @@ public class Jogo {
 			navio = new Navio(navioId, boatProperties.length, linhas, colunas);
 			tabuleiro.inserirNavio(navio);
 			navios[navioId-1] = navio; 
+			this.totalNavios ++;
 		}
-		System.out.println("Navio id final: "+navioId);
+		
+		this.municaoTotal = totalNavios*3;
 	}
 
 	public int getTotalNavios() {
@@ -117,8 +128,20 @@ public class Jogo {
 	public void setDisparosCoordenadas(String[] disparosCoordenadas) {
 		this.disparosCoordenadas = disparosCoordenadas;
 	}
-	
-	
-	
-	
+
+	public int getNaviosNalfragados() {
+		return naviosNalfragados;
+	}
+
+	public void setNaviosNalfragados(int naviosNalfragados) {
+		this.naviosNalfragados = naviosNalfragados;
+	}
+
+	public int getMunicaoTotal() {
+		return municaoTotal;
+	}
+
+	public void setMunicaoTotal(int municaoTotal) {
+		this.municaoTotal = municaoTotal;
+	}
 }
